@@ -68,7 +68,7 @@ function polybius(input, encode = true) {
 
   // validate input 
   try{
-    validInput = validpolybiusInput(input, encode);
+    validInput = validPolybiusInput(input, encode);
   }
   catch(error){ 
     validInput = false;
@@ -80,9 +80,9 @@ function polybius(input, encode = true) {
   const inputChars = input.split("");
 
   if (encode){
-     outputChars = encodepolybiusChar(inputChars)
+     outputChars = encodePolybiusChars(inputChars)
   }else{
-     outputChars = decodepolybiusChar(inputChars)
+     outputChars = decodePolybiusChars(inputChars)
    }
  
   // Assembly the new array as a string and return to call
@@ -90,19 +90,20 @@ function polybius(input, encode = true) {
   return outputMessage;
 }
 
-function validpolybiusInput(input, encode){
+// test for valid input message to encode/decode
+function validPolybiusInput(input, encode){
 
   if ((typeof input != "string") || 
       (input.length == 0) ) 
     return false;
-  else if ((input.length % 2 != 0) && (encode == false)) 
-    return false; 
+  else if ((encode == false) && (isPolybiusInputEven(input) == false ))
+    return false;
   else 
     return true;
 }
 
 // return array of an encoded polybius message
-function encodepolybiusChar(inputChars){
+function encodePolybiusChars(inputChars){
   let encodedChar;
   let outerIndex = 0;
   let innerIndex = 0;
@@ -116,31 +117,38 @@ function encodepolybiusChar(inputChars){
     matchFound = false;
 
     // get single character from message
-    let origChar = inputChars[i];
+    let origChar = inputChars[i].toLowerCase();
 
-    // loop through 1st dimension of polybius array 
-    for (j=0; j<polybiusSq.length; j++){
-      
-      //const cypherRow = j+1;
-      const polybiusRow = polybiusSq[j];
-      const polybiusCol = polybiusRow.findIndex((polyChar) => polyChar == origChar );
+    // this could have been a regex expression, but it was convenient
+    let alpha = alphabet.findIndex((char) => char == origChar);
+    if (alpha == -1) {
+      // not alphabetic, so just add to message array
+      outputMsg.push(origChar); 
+    }
+    else{
+      // loop through 1st dimension of polybius array 
+      for (j=0; j<polybiusSq.length; j++){
+        
+        let polybiusRow = j;
+        let polybiusCol = polybiusSq[j].findIndex((polyChar) => polyChar == origChar );
 
-      // if match is found, then create cypher and exit loop
-      if (polybiusCol > -1){
+        // if match is found, then create cypher and exit loop
+        if (polybiusCol > -1){
 
-          // convert return values to encoded map index
-          polybiusRow += 1;
-          polybiusCol += 1;
-          encodedChar = `${polybiusRow}${polybiusCol}`;
+            // convert return values to encoded map index
+            polybiusRow += 1;
+            polybiusCol += 1;
+            encodedChar = `${polybiusRow}${polybiusCol}`;
 
-          // add to message array
-          outputMsg.push(encodedChar);
-          matchFound = true;
-      }
+            // add to message array
+            outputMsg.push(encodedChar);
+            matchFound = true;
+        }
 
       // if match found, the quit loop, goto next char in message
       if (matchFound) break;
     }
+  }
   }
 
   // return the encoded message
@@ -149,42 +157,76 @@ function encodepolybiusChar(inputChars){
 
 
 // return array of a decoded polybius message
-function decodepolybius(inputChars){
+function decodePolybiusChars(inputChars){
   let decodedChar;
   let outputMsg = [];
+  let i = 0;
 
-  for (i=0;i<inputChars.length;i+=2){
+  while (inputChars.length > 0){
     
-    // retrieve the cypher code from this part of input
-    const encodedChar = inputChars.substring(i, 2);
-    let [polybiusRow, polybiusCol] = encodedChar.slice("");
+    const firstChar = inputChars[0];
+    if (isNaN(firstChar) || (firstChar == " ")){
+      // pass through original value
+      decodedChar = firstChar;
 
-    // convert to map parse 2D array
-    polybiusRow = parseInt(polybiusRow,10)-1;
-    polybiusCol = parseInt(polybiusCol,10)-1;
-    
-    // look up cypher in map
-    try{
-      decodedChar = polybiusSq[polybiusRow][polybiusCol];
+      // remove top char from array
+      inputChars.shift();
+    } else {
+   
+      // retrieve coords from array
+      let polybiusRow = firstChar;
+      let polybiusCol = inputChars[1];
+
+      // convert to 0-base index and parse 2D array
+      polybiusRow = parseInt(polybiusRow,10)-1;
+      polybiusCol = parseInt(polybiusCol,10)-1;
+      
+      // look up cypher in map
+      try{
+        decodedChar = polybiusSq[polybiusRow][polybiusCol];
+        inputChars.shift(); // remove 1st digit
+        inputChars.shift(); // remove 2nd digit
+      }
+      catch(error){
+        throw `Invalid polybius index -- row ${polybiusRow} column ${polybiusCol}`;
+      }
     }
-    catch(error){
-      throw `Invalid polybius index -- row ${polybiusRow} column ${polybiusCol}`;
-    }
-    
+
     // add returned character to output message array
     outputMsg.push(decodedChar);
   }
-
   return outputMsg;
 }
 
+// test that the polybius input value is an even number length w/o non-numeric chars
+function isPolybiusInputEven(input){
+    
+  const inputSizeArray = input.split("");
+  const nonNumericCount = inputSizeArray.reduce((total, char) => {
+    return ((isNaN(char)) || (char == " ")) ? total+=1 : total
+  },0 )
+ 
+  if ((input.length - nonNumericCount) % 2 == 0) {
+    return true;
+  }
+  else{
+    return false;
+  }
+}
 
-let input = "Come get some beer and fresh popcorn!"
-let shift = 3
+
+let input = "Come get some beer and popcorn"
+/*let shift = 3
 let output = caesar(input, shift, encode = true) 
 console.log(output)
 
 input = output
 shift = 3
 output = caesar(input, shift, encode = false) 
+*/
+
+let output = polybius(input, true)
+console.log(output)
+console.log("output")
+output = polybius(output, false)
 console.log(output)
