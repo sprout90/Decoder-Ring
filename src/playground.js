@@ -1,6 +1,6 @@
 const alphabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
 const polybiusSq = [["a","b","c","d","e"],["f","g","h","i/j","k"],["l","m","n","o","p"],["q","r","s","t","u"],["v","w","x","y","z"]];
-const substitution = ["x","o","y","q","m","c","g","r","u","k","s","w","a","f","l","n","t","h","d","j","p","z","i","b","e","v"]
+const substitutionAlphabet = ["x","o","y","q","m","c","g","r","u","k","s","w","a","f","l","n","t","h","d","j","p","z","i","b","e","v"]
 
   function caesar(input, shift, encode = true) {
     let outputChars = [];
@@ -303,15 +303,16 @@ shift = 3
 output = caesar(input, shift, encode = false) 
 */
 
-/*let output = polybius(input, true)
+let output = polybius(input, true)
 console.log(output)
 console.log("output")
 output = polybius(output, false)
 console.log(output)
-*/
 
-let output = substitution(input, substition, true)
+
+/*let output = substitution(input, substition, true)
 console.log(output);
 console.log("output")
 output = substitution(output, substitution, false)
 console.log(output)
+*/

@@ -12,7 +12,7 @@ const substitutionModule = (function () {
   
     // validate input 
     try{
-      validInput = validSubstitutionInput(input);
+      validInput = validSubstitutionInput(input, alphabet);
     }
     catch(error){ 
       validInput = false;
@@ -51,7 +51,7 @@ const substitutionModule = (function () {
     return outputMsg;
   }
 
-  // test for valid input message to encode/decode
+// test for valid input message to encode/decode
 function validSubstitionInput(input, substition){
 
   if ((typeof input != "string") || 

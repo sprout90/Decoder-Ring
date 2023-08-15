@@ -13,10 +13,15 @@ const caesarModule = (function () {
     let newChar = null;
 
     // validate input 
-    if (input == "" || 
-       (shift < -25 || shift > 25 || shift == 0  ) )
-       return false;
-    
+    try{
+      validInput = validCaesarInput(input, shift);
+    }
+    catch(error){ 
+      validInput = false;
+    }
+
+    if (!validInput) return false;
+  
     // encode or decode the array of characters into new array
     const inputChars = input.split("");
     for (i=0; i<inputChars.length; i++){
@@ -68,6 +73,19 @@ const caesarModule = (function () {
     const decodedChar = encodeCaesarChar(inputChar, decodeShift)
 
     return decodedChar;
+}
+
+// test for valid input message to encode/decode
+function validCaesarInput(input, shift){
+
+  if ((typeof input != "string") || (input.length == 0) ) 
+    return false;
+  else if (shift == 0) 
+    return false; 
+  else if (shift < -25 || shift > 25 )
+    return false;
+  else 
+    return true;
 }
 
 // end of module

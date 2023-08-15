@@ -9,16 +9,16 @@
     "docker:test": "docker run -t  thinkful-ed/zid-pf-project-decoder-ring-01-qualified npm test",
     "start": "live-server",
     "start:solution": "npm run -it docker:build && npm run docker:run",
-    "test": "mocha test",
+    "test": "mocha",
     "test:solution": "npm run docker:build && npm run docker:test"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "chai": "^4.2.0",
-    "colors": "1.4.0",  
+    "chai": "^4.3.7",
+    "colors": "1.4.0",
     "live-server": "1.2.1",
-    "mocha": "^8.1.3"
+    "mocha": "^8.4.0"
   }
 }
