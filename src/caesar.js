@@ -70,6 +70,7 @@ const caesarModule = (function () {
     return decodedChar;
 }
 
+// end of module
   return {
     caesar,
   };
