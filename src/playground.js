@@ -1,5 +1,5 @@
 const alphabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
-const polybiusSq = [["a","b","c","d","e"],["f","g","h","i/j","k"],["l","m","n","o","p"],["q","r","s","t","u"],["v","w","x","y","z"]];
+const polybiusSq = [["a","f","l","q","v"],["b","g","m","r","w"],["c","h","n","s","x"],["d","i/j","o","t","y"],["e","k","p","u","z"]];
 const substitutionAlphabet = ["x","o","y","q","m","c","g","r","u","k","s","w","a","f","l","n","t","h","d","j","p","z","i","b","e","v"]
 
   function caesar(input, shift, encode = true) {
@@ -107,6 +107,7 @@ function validPolybiusInput(input, encode){
 // return array of an encoded polybius message
 function encodePolybiusChars(inputChars){
   let encodedChar;
+  let origChar; 
   let outerIndex = 0;
   let innerIndex = 0;
   let outputMsg = [];
@@ -118,43 +119,60 @@ function encodePolybiusChars(inputChars){
     // reset condition break
     matchFound = false;
 
-    // get single character from message
-    let origChar = inputChars[i].toLowerCase();
+    const alpha = /[a-hk-zA-HK-Z]/.test(inputChars[i])
+    if (alpha) {
+      
+      // get single character from message
+      origChar = inputChars[i].toLowerCase();
 
-    // this could have been a regex expression, but it was convenient
-    let alpha = alphabet.findIndex((char) => char == origChar);
-    if (alpha == -1) {
-      // not alphabetic, so just add to message array
-      outputMsg.push(origChar); 
-    }
-    else{
       // loop through 1st dimension of polybius array 
       for (j=0; j<polybiusSq.length; j++){
         
-        let polybiusRow = j;
-        let polybiusCol = polybiusSq[j].findIndex((polyChar) => polyChar == origChar );
+        let polybiusCol = j;
+        let polybiusRow = polybiusSq[j].findIndex((polyChar) => polyChar == origChar );
 
         // if match is found, then create cypher and exit loop
-        if (polybiusCol > -1){
+        if (polybiusRow > -1){
 
-            // convert return values to encoded map index
-            polybiusRow += 1;
-            polybiusCol += 1;
-            encodedChar = `${polybiusRow}${polybiusCol}`;
-
+            encodedChar = formatEncoderCoordinates(polybiusCol, polybiusRow)
+ 
             // add to message array
             outputMsg.push(encodedChar);
             matchFound = true;
         }
-
+      
       // if match found, the quit loop, goto next char in message
       if (matchFound) break;
     }
   }
+  else if (/[ijIJ]/.test(inputChars[i])){
+
+    // handle the i or j shared space
+    let polybiusCol = 3;
+    let polybiusRow = 1;
+    encodedChar = formatEncoderCoordinates(polybiusCol, polybiusRow)
+    outputMsg.push(encodedChar); 
   }
+  else {
+    // not alphabetic, so just add to message array
+    origChar = inputChars[i]
+    outputMsg.push(origChar); 
+ }
+}
 
   // return the encoded message
   return outputMsg;
+}
+
+// formatter to convert coords from zero-based index to grid number format
+function formatEncoderCoordinates(col, row){
+
+  // convert return values to encoded map index
+  row += 1;
+  col += 1;
+  const encodedChar = `${col}${row}`;
+
+  return encodedChar;
 }
 
 
@@ -176,21 +194,21 @@ function decodePolybiusChars(inputChars){
     } else {
    
       // retrieve coords from array
-      let polybiusRow = firstChar;
-      let polybiusCol = inputChars[1];
+      let polybiusCol = firstChar;
+      let polybiusRow = inputChars[1];
 
       // convert to 0-base index and parse 2D array
-      polybiusRow = parseInt(polybiusRow,10)-1;
       polybiusCol = parseInt(polybiusCol,10)-1;
-      
+      polybiusRow = parseInt(polybiusRow,10)-1;
+    
       // look up cypher in map
       try{
-        decodedChar = polybiusSq[polybiusRow][polybiusCol];
+        decodedChar = polybiusSq[polybiusCol][polybiusRow];
         inputChars.shift(); // remove 1st digit
         inputChars.shift(); // remove 2nd digit
       }
       catch(error){
-        throw `Invalid polybius index -- row ${polybiusRow} column ${polybiusCol}`;
+        throw `Invalid polybius index -- column ${polybiusCol} row ${polybiusRow}`;
       }
     }
 
@@ -216,6 +234,17 @@ function isPolybiusInputEven(input){
   }
 }
 
+// test for valid input message to encode/decode
+function validPolybiusInput(input, encode){
+
+  if ((typeof input != "string") || 
+      (input.length == 0) ) 
+    return false;
+  else if ((encode == false) && (isPolybiusInputEven(input) == false ))
+    return false;
+  else 
+    return true;
+}
 
 function substitution(input, alphabet, encode = true) {
   let outputChars = [];
@@ -294,11 +323,8 @@ function isAlphabetUnique(subsitution){
 }
 
 
-const alpha = /[ijIJ]/.test("j")
-console.log(alpha)
-
-/*let input = "Come get some beer and popcorn!"
-let shift = -5
+let input = "Just settle the score!"
+/*let shift = -5
 let output = caesar(input, shift, encode = true) 
 console.log(output)
 
@@ -315,12 +341,12 @@ const expected = "zebra magazine";
 console.log(actual)
 */
 
-/*let output = polybius(input, true)
+let output = polybius(input, true)
 console.log(output)
 console.log("output")
 output = polybius(output, false)
 console.log(output)
-*/
+
 
 /*let output = substitution(input, substition, true)
 console.log(output);

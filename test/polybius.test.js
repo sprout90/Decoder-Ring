@@ -1,8 +1,9 @@
 const { expect } = require("chai");
 const { polybius } = require("../src/polybius");
 
-const polybiusSq = [["a","b","c","d","e"],["f","g","h","i/j","k"],["l","m","n","o","p"],["q","r","s","t","u"],["v","w","x","y","z"]];
+const polybiusSq = [["a","f","l","q","v"],["b","g","m","r","w"],["c","h","n","s","x"],["d","i/j","o","t","y"],["e","k","p","u","z"]];
 const message = "Get some beer and fresh popcorn!"
+const encoded = "31432351 225144 34432351 21515124 113341 53435331432433!"
 
 describe("Polybius", () => {
   describe("polybius input validation", () => {
@@ -18,8 +19,8 @@ describe("Polybius", () => {
         expect(answer).to.be.false;
     });
     it("should return false if encode param = false, and decode length is not even", () => {
-        // removed last digit from otherwise valid input
-        const input = "13343215 221544 43343215 12151542 113314 3534351334423!";
+        // removed last digit (a one) from otherwise valid input
+        const input = "42543444 345144441351 443251 343143245!";
         const answer = polybius(input, false)
         expect(answer).to.be.false;
     });
