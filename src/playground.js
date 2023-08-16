@@ -36,10 +36,11 @@ const substitutionAlphabet = ["x","o","y","q","m","c","g","r","u","k","s","w","a
     if (matchIndex > -1) {
       const codedIndex = matchIndex + shift;
 
-      if (codedIndex > 26) {
+      if (codedIndex > 25) {
         const rolloverIndex = codedIndex - 26
         encodedChar = alphabet[rolloverIndex]
-      } if (codedIndex < 0) {
+      }
+      else if (codedIndex < 0) {
         const rollunderIndex = 26 - (codedIndex * -1)
         encodedChar = alphabet[rollunderIndex]
       }
@@ -293,22 +294,33 @@ function isAlphabetUnique(subsitution){
 }
 
 
-let input = "Come get some beer and popcorn!"
-/*let shift = 3
+const alpha = /[ijIJ]/.test("j")
+console.log(alpha)
+
+/*let input = "Come get some beer and popcorn!"
+let shift = -5
 let output = caesar(input, shift, encode = true) 
 console.log(output)
 
 input = output
-shift = 3
+shift = -5
 output = caesar(input, shift, encode = false) 
+console.log(output)
 */
 
-let output = polybius(input, true)
+/*const message = "wbyox jxdxwfkb";
+const shift = -3;
+const actual = caesar(message, shift, false);
+const expected = "zebra magazine";
+console.log(actual)
+*/
+
+/*let output = polybius(input, true)
 console.log(output)
 console.log("output")
 output = polybius(output, false)
 console.log(output)
-
+*/
 
 /*let output = substitution(input, substition, true)
 console.log(output);

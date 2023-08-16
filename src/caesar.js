@@ -48,10 +48,11 @@ const caesarModule = (function () {
     if (matchIndex > -1) {
       const codedIndex = matchIndex + shift;
 
-      if (codedIndex > 26) {
+      if (codedIndex > 25) {
         const rolloverIndex = codedIndex - 26
         encodedChar = alphabet[rolloverIndex]
-      } if (codedIndex < 0) {
+      }
+      else if (codedIndex < 0) {
         const rollunderIndex = 26 - (codedIndex * -1)
         encodedChar = alphabet[rollunderIndex]
       }
