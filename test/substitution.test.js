@@ -25,7 +25,7 @@ describe("Substitution", () => {
         const answer = substitution(input, testAlpha)
         expect(answer).to.be.false;
     });
-    it("should return false if alpha array not unique", () => {
+    it("should return false if alpha array entries are not unique", () => {
         const input = message;
         let testAlpha = substitutionAlphabet;
         testAlpha.pop();

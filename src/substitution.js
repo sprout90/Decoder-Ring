@@ -66,11 +66,25 @@ function validSubstitionInput(input, substition){
 }
 
 // are all letters in this alphabet unique
-function isAlphabetUnique(subsitution){
-  let isUnique = false;
-
-  return isUnique;
-}
+function isAlphabetUnique(substitution){
+  let isUnique;
+  
+    let total = substitution.reduce((outerCount, letterToScan, outerIndex) => {
+      let innerTotal = substitution.reduce((innerCount, letterToTest, innerIndex) => { 
+          return ((letterToScan == letterToTest) && (outerIndex != innerIndex)) ? innerCount +=1 : innerCount;
+      }, 0)
+  
+      return (innerTotal > 0) ? outerCount += 1 : outerCount;
+    },0);
+  
+    if (total > 0) {
+      isUnique = false;
+    } else {
+      isUnique = true;
+    }
+  
+    return isUnique;
+  }
 
 
   // end of module

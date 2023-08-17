@@ -316,12 +316,26 @@ function validSubstitionInput(input, substition){
     return true;
 }
 
-function isAlphabetUnique(subsitution){
-  let isUnique = false;
+// are all letters in this alphabet unique
+function isAlphabetUnique(substitution){
+let isUnique;
+
+  let total = substitution.reduce((outerCount, letterToScan, outerIndex) => {
+    let innerTotal = substitution.reduce((innerCount, letterToTest, innerIndex) => { 
+        return ((letterToScan == letterToTest) && (outerIndex != innerIndex)) ? innerCount +=1 : innerCount;
+    }, 0)
+
+    return (innerTotal > 0) ? outerCount += 1 : outerCount;
+  },0);
+
+  if (total > 0) {
+    isUnique = false;
+  } else {
+    isUnique = true;
+  }
 
   return isUnique;
 }
-
 
 let input = "Just settle the score!"
 /*let shift = -5
@@ -341,13 +355,19 @@ const expected = "zebra magazine";
 console.log(actual)
 */
 
-let output = polybius(input, true)
+/*let output = polybius(input, true)
 console.log(output)
 console.log("output")
 output = polybius(output, false)
 console.log(output)
+*/
 
 
+let testAlpha = substitutionAlphabet;
+testAlpha.pop();
+testAlpha.push("a");
+const result = isAlphabetUnique(testAlpha);
+console.log("my result is: " + result )
 /*let output = substitution(input, substition, true)
 console.log(output);
 console.log("output")
