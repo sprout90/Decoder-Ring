@@ -18,7 +18,7 @@ const substitutionModule = (function () {
       validInput = validSubstitutionInput(input, alphabet);
     }
     catch(error){ 
-      console.log("error : " + error)
+      console.log(`Error message returned: "${error}"`)
       validInput = false;
     }
   

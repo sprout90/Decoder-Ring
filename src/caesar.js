@@ -17,6 +17,7 @@ const caesarModule = (function () {
       validInput = validCaesarInput(input, shift);
     }
     catch(error){ 
+      console.log(`Error message returned: "${error}"`)
       validInput = false;
     }
 
@@ -79,7 +80,9 @@ const caesarModule = (function () {
 // test for valid input message to encode/decode
 function validCaesarInput(input, shift){
 
-  if ((typeof input != "string") || (input.length == 0) ) 
+  if (typeof shift == "undefined")
+    return false;
+  else if ((typeof input != "string") || (input.length == 0) ) 
     return false;
   else if (shift == 0) 
     return false; 
@@ -95,10 +98,5 @@ function validCaesarInput(input, shift){
   };
 })();
 
-/*let input = "Harry the judge loves Mel Torme"
-let shift = 3
-let output = caesar(input, shift, encode = true) 
-console.log(output)
-*/
 
 module.exports = { caesar: caesarModule.caesar };

@@ -16,6 +16,7 @@ const polybiusModule = (function () {
       validInput = validPolybiusInput(input, encode);
     }
     catch(error){ 
+      console.log(`Error message returned: "${error}"`)
       validInput = false;
     }
 
@@ -63,7 +64,7 @@ function encodePolybiusChars(inputChars){
     // reset condition break
     matchFound = false;
 
-    const alpha = /[a-hk-zA-HK-Z]/.test(inputChars[i])
+    const alpha = /[a-hk-zA-HK-Z]/.test(inputChars[i]);
     if (alpha) {
       
       // get single character from message
@@ -78,7 +79,7 @@ function encodePolybiusChars(inputChars){
         // if match is found, then create cypher and exit loop
         if (polybiusRow > -1){
 
-            encodedChar = formatEncoderCoordinates(polybiusCol, polybiusRow)
+            encodedChar = formatEncoderCoordinates(polybiusCol, polybiusRow);
  
             // add to message array
             outputMsg.push(encodedChar);
@@ -94,16 +95,16 @@ function encodePolybiusChars(inputChars){
     // handle the i or j shared space
     let polybiusCol = 3;
     let polybiusRow = 1;
-    encodedChar = formatEncoderCoordinates(polybiusCol, polybiusRow)
+    encodedChar = formatEncoderCoordinates(polybiusCol, polybiusRow);
     outputMsg.push(encodedChar); 
   }
   else {
     // not alphabetic, so just add to message array
-    origChar = inputChars[i]
+    origChar = inputChars[i];
     outputMsg.push(origChar); 
  }
 }
-
+  
   // return the encoded message
   return outputMsg;
 }

@@ -30,27 +30,53 @@ describe("Substitution", () => {
         expect(answer).to.be.false;
     });
   });
-  describe("correct output tests", () => {
+  describe("encoding validation", () => {
     it("should return correct _encoded_ ouput for input message", () => {
       
-      const input = message;
-      const expectedOutput = "gmj dlam ommh xfq chmdr nlnylhf"
+      const input = "popcorn";
+      const expectedOutput = "nlnylhf"
       const answer = substitution(input, substitutionAlphabet);
       expect(answer).to.equal(expectedOutput)
     });
+    it("should maintain spaces from the input message", () => {
+      
+      const input = message;
+      const expectedOutput = "gmj dlam ommh xfq chmdr nlnylhf"
+      const answer = substitution(input, substitutionAlphabet, true);
+      
+      expect(answer).to.equal(expectedOutput);
+    });
+    it("should ignore capital letters", () => {
+      
+      const input = message.toUpperCase();
+      const expectedOutput = "gmj dlam ommh xfq chmdr nlnylhf"
+      const answer = substitution(input, substitutionAlphabet, true);
+      
+      expect(answer).to.equal(expectedOutput);
+    });
+  });
+
+  describe("decoding validation", () => {
     it("should return correct _decoded_ ouput for input message", () => {
+      
+      const input = "nlnylhf"
+      const expectedOutput = "popcorn";
+      const answer = substitution(input, substitutionAlphabet, false);
+      expect(answer).to.equal(expectedOutput);
+    });
+    it("should maintain spaces from the input message", () => {
       
       const input = "gmj dlam ommh xfq chmdr nlnylhf"
       const expectedOutput = message;
       const answer = substitution(input, substitutionAlphabet, false);
       expect(answer).to.equal(expectedOutput);
     });
-    it("should maintain spaces from the input message", () => {
+    it("should ignore capital letters", () => {
       
-      const input = message;
-      const answer = substitution(input, substitutionAlphabet, true);
-      const expectedOutput = "gmj dlam ommh xfq chmdr nlnylhf"
- 
+      const input = "GMJ DLAM OMMH XFQ CHMDR NLNYLHF"
+      const expectedOutput = message;
+      const answer = substitution(input, substitutionAlphabet, false);
+      
       expect(answer).to.equal(expectedOutput);
     });
   });
