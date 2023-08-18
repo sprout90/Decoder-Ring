@@ -13,5 +13,5 @@ My focus as a student has been purely on the JavaScript in the src folder in add
 I also added some techniques not covered such as while loops, and regex functions. It just seemed natural, and the solution called for it. 🙂
 
 ## Where Can I See It? (still under construction)
-To view the page, please click this () link.
+To view the page, please click this [Decoder Ring](https://sprout90.github.io/Decoder-Ring/) link.
 
