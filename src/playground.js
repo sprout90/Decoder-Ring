@@ -2,6 +2,9 @@ const alphabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p
 const polybiusSq = [["a","f","l","q","v"],["b","g","m","r","w"],["c","h","n","s","x"],["d","i/j","o","t","y"],["e","k","p","u","z"]];
 const substitutionAlphabet = ["x","o","y","q","m","c","g","r","u","k","s","w","a","f","l","n","t","h","d","j","p","z","i","b","e","v"]
 
+const { substitution } = require("../src/substitution");
+
+
   function caesar(input, shift, encode = true) {
     let outputChars = [];
     let newChar = null;
@@ -246,98 +249,6 @@ function validPolybiusInput(input, encode){
     return true;
 }
 
-function substitution(input, alphabet, encode = true) {
-  let outputChars = [];
-  let validInput = true;
-
-  // validate input 
-  try{
-    validInput = validSubstitutionInput(input);
-  }
-  catch(error){ 
-    validInput = false;
-  }
-
-  if (!validInput) return false;
-
-  // encode or decode the array of characters into new array
-  const inputChars = input.split("");
-
-  if (encode){
-     outputChars = encodeSubstitutionChars(inputChars, alphabet)
-  }else{
-     outputChars = decodeSubstitutionChars(inputChars, alphabet)
-   }
- 
-  // Assembly the new array as a string and return to call
-  const outputMessage = outputChars.join("")
-  return outputMessage;
-}
-
-function encodeSubstitutionChars(inputChars, alphabet){
-  let decodedChar;
-  let outputMsg = [];
-
-  return outputMsg;
-
-}
-
-function decodeSubstitutionChars(inputChars, alphabet){
-  let decodedChar;
-  let outputMsg = [];
-
-
-  return outputMsg;
-}
-
-// test for valid input message to encode/decode
-function validPolybiusInput(input, encode){
-
-  if ((typeof input != "string") || 
-      (input.length == 0) ) 
-    return false;
-  else if ((encode == false) && (isPolybiusInputEven(input) == false ))
-    return false;
-  else 
-    return true;
-}
-
-// test for valid input message to encode/decode
-function validSubstitionInput(input, substition){
-
-  if ((typeof input != "string") || 
-      (input.length == 0) ) 
-    return false;
-  else if (substitution.length != 26)
-    return false;
-  else if (!isAlphabetUnique(substitution))
-    return false;
-  else 
-    return true;
-}
-
-// are all letters in this alphabet unique
-function isAlphabetUnique(substitution){
-let isUnique;
-
-  let total = substitution.reduce((outerCount, letterToScan, outerIndex) => {
-    let innerTotal = substitution.reduce((innerCount, letterToTest, innerIndex) => { 
-        return ((letterToScan == letterToTest) && (outerIndex != innerIndex)) ? innerCount +=1 : innerCount;
-    }, 0)
-
-    return (innerTotal > 0) ? outerCount += 1 : outerCount;
-  },0);
-
-  if (total > 0) {
-    isUnique = false;
-  } else {
-    isUnique = true;
-  }
-
-  return isUnique;
-}
-
-let input = "Just settle the score!"
 /*let shift = -5
 let output = caesar(input, shift, encode = true) 
 console.log(output)
@@ -362,15 +273,9 @@ output = polybius(output, false)
 console.log(output)
 */
 
-
-let testAlpha = substitutionAlphabet;
-testAlpha.pop();
-testAlpha.push("a");
-const result = isAlphabetUnique(testAlpha);
-console.log("my result is: " + result )
-/*let output = substitution(input, substition, true)
+let input = "Just settle the score!"
+let output = substitution(input, substitutionAlphabet, true)
 console.log(output);
 console.log("output")
-output = substitution(output, substitution, false)
+output = substitution(output, substitutionAlphabet, false)
 console.log(output)
-*/

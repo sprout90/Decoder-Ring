@@ -6,56 +6,73 @@
 const substitutionModule = (function () {
   // you can add any code you want within this function scope
 
+  const englishAlphabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+
   function substitution(input, alphabet, encode = true) {
     let outputChars = [];
     let validInput = true;
-  
+ 
+
     // validate input 
     try{
       validInput = validSubstitutionInput(input, alphabet);
     }
     catch(error){ 
+      console.log("error : " + error)
       validInput = false;
     }
   
     if (!validInput) return false;
   
-    // encode or decode the array of characters into new array
+    // split the message and alphabet strings into arrays 
     const inputChars = input.split("");
-  
-    if (encode){
-       outputChars = encodeSubstitutionChars(inputChars, alphabet)
-    }else{
-       outputChars = decodeSubstitutionChars(inputChars, alphabet)
-     }
+    const substitutionAlphabet = alphabet.split("");
    
-    // Assembly the new array as a string and return to call
+    // encode the array of message characters using alphabet characters into new array
+    if (encode){
+       outputChars = encodeSubstitutionChars(inputChars, substitutionAlphabet, englishAlphabet)
+    }else{
+       outputChars = decodeSubstitutionChars(inputChars, substitutionAlphabet, englishAlphabet)
+    }
+   
+    // Assembly the new array as a string and return to caller
     const outputMessage = outputChars.join("")
     return outputMessage;
   }
   
-  // return array of encoded chars based on substitution alphabet
-  function encodeSubstitutionChars(inputChars, substitution){
-    let decodedChar;
+  // return array of new encoded chars based on source alphabet
+  function encodeSubstitutionChars(inputChars, newAlphabet, sourceAlphabet){
     let outputMsg = [];
   
+    // loop through input string, and replace characters with letters having matching 
+    // index from sourceAlphabet to newAlphabet
+    for (i=0; i<inputChars.length; i++){
+
+      //const alpha = /[a-zA-Z]/.test(inputChars[i])
+      const space = /\s/.test(inputChars[i])
+  
+      if (space == false) {
+        const charIndex = sourceAlphabet.indexOf(inputChars[i].toLowerCase());
+        outputMsg[i] = newAlphabet[charIndex];
+      } else {
+        outputMsg[i] = inputChars[i]
+      }
+    }
+
     return outputMsg;
   }
 
   // return array of decoded chars based on substition alphabet
-  function decodeSubstitutionChars(inputChars, substitution){
-    let decodedChar;
-    let outputMsg = [];
-  
-  
-    return outputMsg;
+  function decodeSubstitutionChars(inputChars, newAlphabet, sourceAlphabet){
+    
+    // flip alphabet parameters to complete the reverse of encoding
+    return encodeSubstitutionChars(inputChars, sourceAlphabet, newAlphabet)
   }
 
 // test for valid input message to encode/decode
-function validSubstitionInput(input, substition){
+function validSubstitutionInput(input, substitution){
 
-  if ((typeof input != "string") || 
-      (input.length == 0) ) 
+  if ((typeof input != "string") || (input.length == 0) )
     return false;
   else if (substitution.length != 26)
     return false;
@@ -66,22 +83,20 @@ function validSubstitionInput(input, substition){
 }
 
 // are all letters in this alphabet unique
-function isAlphabetUnique(substitution){
+function isAlphabetUnique(alphabet){
   let isUnique;
   
-    let total = substitution.reduce((outerCount, letterToScan, outerIndex) => {
-      let innerTotal = substitution.reduce((innerCount, letterToTest, innerIndex) => { 
+  const validAlphabet = alphabet.split("");
+
+    let total = validAlphabet.reduce((outerCount, letterToScan, outerIndex) => {
+      let innerTotal = validAlphabet.reduce((innerCount, letterToTest, innerIndex) => { 
           return ((letterToScan == letterToTest) && (outerIndex != innerIndex)) ? innerCount +=1 : innerCount;
       }, 0)
   
       return (innerTotal > 0) ? outerCount += 1 : outerCount;
     },0);
-  
-    if (total > 0) {
-      isUnique = false;
-    } else {
-      isUnique = true;
-    }
+
+    isUnique = (total > 0) ? false : true;
   
     return isUnique;
   }
