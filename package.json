@@ -1,7 +1,11 @@
 {
-  "name": "project-decoder-ring",
+  "name": "decoder-ring",
   "version": "1.0.0",
-  "description": "This project allows you to encode and decode text with a variety of different ciphers.",
+  "description": "JavaScript application implementing Caesar, Polybius Square, and substitution ciphers with automated unit tests",
+  "repository": {
+    "type": "git",
+    "url": "YOUR-ACTUAL-DECODER-RING-GITHUB-URL"
+  },
   "scripts": {
     "docker:build": "docker image build . -t thinkful-ed/zid-pf-project-decoder-ring-01-qualified",
     "docker:run": "docker run --rm -it -p 3000:3000 thinkful-ed/zid-pf-project-decoder-ring-01-qualified",
@@ -12,8 +16,15 @@
     "test": "mocha",
     "test:solution": "npm run docker:build && npm run docker:test"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["javascript",
+  "algorithms",
+  "caesar-cipher",
+  "polybius-square",
+  "substitution-cipher",
+  "mocha",
+  "chai",
+  "unit-testing"],
+  "author": "Michael Brehm",
   "license": "ISC",
   "devDependencies": {
     "chai": "^4.3.7",
