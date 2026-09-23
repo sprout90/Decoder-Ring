@@ -2,6 +2,8 @@
 
 Decoder Ring is a JavaScript application developed as part of the Thinkful Software Engineering program. The application encodes and decodes messages using three classic cipher techniques: Caesar Shift, Polybius Square, and Substitution Cipher.
 
+[Live Application](https://decoder-ring-pk7w.onrender.com/)
+
 ## Application Overview
 
 The project focuses on JavaScript programming, algorithm development, input validation, data transformation, and unit testing.
@@ -29,12 +31,4 @@ This project was particularly enjoyable for me because it revisited one of my ea
 ## Testing
 
 The project uses Mocha and Chai for automated unit testing. In addition to the supplied project tests, I created tests covering input validation and expected encoding and decoding behavior for each cipher.
-
-## Live Application
-
-A deployed version of the application is available through the repository's project link.
-
-
-## Where Can I See It?
-To view the page, please click this [Decoder Ring](https://decoder-ring-pk7w.onrender.com/) link.
 
